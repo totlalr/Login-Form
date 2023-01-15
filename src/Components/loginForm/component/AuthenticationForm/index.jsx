@@ -1,102 +1,140 @@
-import { useToggle, upperFirst } from '@mantine/hooks';
-import { useForm } from '@mantine/form';
+import { useForm } from "@mantine/form";
+import { IconLock, IconMail } from "@tabler/icons";
+import { FacebookButton } from "./components/socialButtom/socialButtom/facebook/index";
+import { GoogleButton } from "./components/socialButtom/socialButtom/google/index";
+
 import {
-  TextInput,
-  PasswordInput,
-  Text,
-  Paper,
-  Group,
-  PaperProps,
+  ActionIcon,
+  Anchor,
   Button,
   Divider,
-  Checkbox,
-  Anchor,
+  Group,
+  Paper,
+  PasswordInput,
   Stack,
-} from '@mantine/core';
-// import { GoogleButton, TwitterButton } from '../SocialButtons/SocialButtons';
+  Text,
+  TextInput,
+} from "@mantine/core";
 
-export function AuthenticationForm(props: PaperProps) {
-  const [type, toggle] = useToggle(['login', 'register']);
+export function AuthenticationForm(props) {
   const form = useForm({
     initialValues: {
-      email: '',
-      name: '',
-      password: '',
+      email: "",
+      name: "",
+      password: "",
       terms: true,
     },
 
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : 'Invalid email'),
-      password: (val) => (val.length <= 6 ? 'Password should include at least 6 characters' : null),
+      email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
+      password: (val) =>
+        val.length <= 6
+          ? "Password should include at least 6 characters"
+          : null,
     },
   });
 
   return (
-    <Paper radius="md" p="xl" withBorder style={{maxWidth:'300px'}} {...props}>
-      <Text size="lg" weight={500}>
-        Welcome to Mantine, {type} with
+    <Paper
+      radius="md"
+      p="xl"
+      withBorder
+      style={{ width: "430px", border: "none" }}
+      {...props}
+    >
+      <Text size="xl" weight={500}>
+        WelcomeBack !
       </Text>
-
-      <Group grow mb="md" mt="md">
-        {/* <GoogleButton radius="xl">Google</GoogleButton>
-        <TwitterButton radius="xl">Twitter</TwitterButton> */}
-      </Group>
-
-      <Divider label="Or continue with email" labelPosition="center" my="lg" />
+      <Text c="dimmed" style={{ fontSize: "12px", marginTop: "2%" }}>
+        Start managing your finnace faster and better{" "}
+      </Text>
 
       <form onSubmit={form.onSubmit(() => {})}>
         <Stack>
-          {type === 'register' && (
-            <TextInput
-              label="Name"
-              placeholder="Your name"
-              value={form.values.name}
-              onChange={(event) => form.setFieldValue('name', event.currentTarget.value)}
-            />
-          )}
-
           <TextInput
+            variant="filled"
+            icon={
+              <ActionIcon variant="outline" color="blue" p={4} bg="white">
+                <IconMail />
+              </ActionIcon>
+            }
+            size="md"
+            style={{ marginTop: "8%" }}
             required
-            label="Email"
             placeholder="hello@mantine.dev"
             value={form.values.email}
-            onChange={(event) => form.setFieldValue('email', event.currentTarget.value)}
-            error={form.errors.email && 'Invalid email'}
+            onChange={(event) =>
+              form.setFieldValue("email", event.currentTarget.value)
+            }
+            error={form.errors.email && "Invalid email"}
           />
 
           <PasswordInput
+            variant="filled"
+            icon={
+              <ActionIcon variant="outline" color="blue" p={4} bg="white">
+                <IconLock />
+              </ActionIcon>
+            }
+            size="md"
             required
-            label="Password"
             placeholder="Your password"
             value={form.values.password}
-            onChange={(event) => form.setFieldValue('password', event.currentTarget.value)}
-            error={form.errors.password && 'Password should include at least 6 characters'}
+            onChange={(event) =>
+              form.setFieldValue("password", event.currentTarget.value)
+            }
+            error={
+              form.errors.password &&
+              "Password should include at least 6 characters"
+            }
           />
-
-          {type === 'register' && (
-            <Checkbox
-              label="I accept terms and conditions"
-              checked={form.values.terms}
-              onChange={(event) => form.setFieldValue('terms', event.currentTarget.checked)}
-            />
-          )}
         </Stack>
 
-        <Group position="apart" mt="xl">
+        <Group position="right" mt="lg">
           <Anchor
-            component="button"
-            type="button"
-            color="dimmed"
-            onClick={() => toggle()}
-            size="xs"
+            onClick={(event) => event.preventDefault()}
+            href="#"
+            size="sm"
+            fw={700}
           >
-            {type === 'register'
-              ? 'Already have an account? Login'
-              : "Don't have an account? Register"}
+            Forgot password?
           </Anchor>
-          <Button type="submit">{upperFirst(type)}</Button>
+        </Group>
+
+        <Group position="apart" mt="xl">
+          <Button size="md" type="submit" style={{ width: "100%" }}>
+            Login
+          </Button>
         </Group>
       </form>
+      <Divider
+        c="dimmed"
+        label="Or"
+        labelPosition="center"
+        my="lg"
+        style={{ marginTop: "10%" }}
+      />
+
+      <Group grow mb="md" mt="md">
+        <GoogleButton size="md" radius="10px">
+          Google
+        </GoogleButton>
+        <FacebookButton size="md" radius="10px">
+          Facebook
+        </FacebookButton>
+      </Group>
+
+      <Text c="dimmed" size="sm" align="center" mt="10%">
+        Don&apos;t you have an account?{" "}
+        <Anchor
+          ml={5}
+          href="#"
+          weight={700}
+          onClick={(event) => event.preventDefault()}
+        >
+          Sign Up
+        </Anchor>
+      </Text>
     </Paper>
   );
 }
