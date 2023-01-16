@@ -1,10 +1,13 @@
 import { AuthenticationForm } from "./component/AuthenticationForm";
 import { Text } from "@mantine/core";
+import Slider from "./component/slider";
 
 function LoginForm() {
   return (
     <div style={{ display: "flex", width: "100%", minHeight: "100vh" }}>
-      <div style={{ backgroundColor: "#f6f6f6", width: "40%" }}></div>
+      <div style={{ backgroundColor: "#f6f6f6", width: "40%" }}>
+        <Slider />
+      </div>
       <div
         style={{
           backgroundColor: "white",
