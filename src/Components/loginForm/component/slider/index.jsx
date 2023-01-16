@@ -1,78 +1,89 @@
-import { createStyles, Image, Card, Text, Group, Button } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
+import { Center, Image, Space, Text } from "@mantine/core";
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
+import Slider1 from "../../../../assets/images/image1.png";
+import Slider2 from "../../../../assets/images/image2.png";
+import Slider3 from "../../../../assets/images/image3.png";
+import Slider4 from "../../../../assets/images/image4.png";
 
-const useStyles = createStyles((theme, _params, getRef) => ({
-  price: {
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+const assets = [
+  {
+    src: Slider1,
+    title: "Welcome to Back!",
+    text: "start managing your finance faster and better",
+    sunText: "start managing your finance faster and better",
+    id: 1,
   },
-
-  carousel: {
-    "&:hover": {
-      [`& .${getRef("carouselControls")}`]: {
-        opacity: 1,
-        border: "none",
-      },
-    },
+  {
+    src: Slider2,
+    title: "Welcome to Back!",
+    text: "start managing your finance faster and better",
+    sunText: "start managing your finance faster and better",
+    id: 2,
   },
-
-  carouselControls: {
-    ref: getRef("carouselControls"),
-    transition: "opacity 150ms ease",
-    opacity: 0,
-    border: "none",
-    minHeight: "100vh",
+  {
+    src: Slider3,
+    title: "Welcome to Back!",
+    text: "start managing your finance faster and better",
+    sunText: "start managing your finance faster and better",
+    id: 3,
   },
-
-  carouselIndicator: {
-    backgroundColor: "black",
-    width: 4,
-    height: 4,
-    transition: "width 250ms ease",
-
-    "&[data-active]": {
-      width: 16,
-    },
+  {
+    src: Slider4,
+    title: "Welcome to Back!",
+    text: "start managing your finance faster and better",
+    sunText: "start managing your finance faster and better",
+    id: 4,
   },
-}));
-
-const images = [
-  "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
-  "https://images.unsplash.com/photo-1567767292278-a4f21aa2d36e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
-  "https://images.unsplash.com/photo-1605774337664-7a846e9cdf17?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
-  "https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
-  "https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=720&q=80",
 ];
 
 export default function Slider() {
-  const { classes } = useStyles();
-
-  const slides = images.map((image) => (
-    <Carousel.Slide key={image}>
-      <Image src={image} height={220} />
-    </Carousel.Slide>
-  ));
-
+  const autoplay = useRef(Autoplay({ delay: 5000 }));
   return (
-    <Card
-      radius="md"
-      withBorder
-      p="xl"
-      className="slider-for-login"
-      style={{ minHeight: "100vh", backgroundColor: "#f6f6f6" }}
+    <Carousel
+      sx={{ maxWidth: 600 }}
+      mx="auto"
+      loop
+      withIndicators
+      height={700}
+      plugins={[autoplay.current]}
+      onMouseEnter={autoplay.current.stop}
+      onMouseLeave={autoplay.current.reset}
+      styles={{
+        indicator: {
+          width: 5,
+          backgroundColor: "black",
+          height: 4,
+          transition: "width 250ms ease",
+
+          "&[data-active]": {
+            width: 20,
+          },
+        },
+      }}
     >
-      <Card.Section>
-        <Carousel
-          withIndicators
-          loop
-          classNames={{
-            root: classes.carousel,
-            controls: classes.carouselControls,
-            indicator: classes.carouselIndicator,
-          }}
-        >
-          {slides}
-        </Carousel>
-      </Card.Section>
-    </Card>
+      {assets.map((item) => {
+        return (
+          <Carousel.Slide key={item.id}>
+            <Image src={item.src} />
+            <Center>
+              <div>
+                <Text size="lg" weight={"bold"}>
+                  {item.title}
+                </Text>
+                <Space h="xs" />
+                <Text size="sm" c="dimmed" weight={"normal"}>
+                  {item.text}
+                </Text>
+                <Text size="xs" c="dimmed" weight={"normal"}>
+                  {item.sunText}
+                </Text>
+              </div>
+            </Center>
+          </Carousel.Slide>
+        );
+      })}
+    </Carousel>
   );
 }
